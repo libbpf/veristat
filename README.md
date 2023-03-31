@@ -1,4 +1,6 @@
-# veristat
+veristat
+[![Build](https://github.com/libbpf/veristat/actions/workflows/build.yml/badge.svg)](https://github.com/libbpf/veristat/actions/workflows/build.yml)
+========
 
 > This is a mirror of veristat sources from
 > [bpf-next](https://kernel.googlesource.com/pub/scm/linux/kernel/git/bpf/bpf-next)
