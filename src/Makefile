@@ -10,7 +10,7 @@ LIBBPF_OBJ := $(abspath $(OUTPUT)/libbpf.a)
 # outdated
 INCLUDES := -I$(OUTPUT) -I../../libbpf/include/uapi
 CFLAGS := -g -Wall -DVERISTAT_VERSION=\"$(VERISTAT_VERSION)\" -O$(if $(DEBUG),0,2)
-ALL_CFLAGS := $(CFLAGS) $(EXTRA_LDFLAGS)
+ALL_CFLAGS := $(CFLAGS) $(EXTRA_CFLAGS)
 ALL_LDFLAGS := $(LDFLAGS) $(EXTRA_LDFLAGS)
 
 export VERISTAT_VERSION
@@ -64,7 +64,7 @@ $(LIBBPF_OBJ): $(wildcard $(LIBBPF_SRC)/*.[ch] $(LIBBPF_SRC)/Makefile) | $(OUTPU
 	$(Q)$(MAKE) -C $(LIBBPF_SRC) BUILD_STATIC_ONLY=1		      \
 		    OBJDIR=$(dir $@)/libbpf DESTDIR=$(dir $@)		      \
 		    INCLUDEDIR= LIBDIR= UAPIDIR=			      \
-		    EXTRA_CFLAGS="-g -O$(if $(DEBUG),0,2)"		      \
+		    EXTRA_CFLAGS="-g -O$(if $(DEBUG),0,2) $(EXTRA_CFLAGS)"    \
 		    install
 
 # Build .c files
