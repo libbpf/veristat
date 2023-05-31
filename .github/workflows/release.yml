@@ -107,9 +107,10 @@ jobs:
           path: 'veristat'
 
       - name: Package source code including submodules
-        run: |
-          tar -I 'gzip -9' --exclude-vcs \
-              -cvf "veristat-all-sources-${{ github.ref_name }}.tar.gz" veristat
+        uses: qmonnet/git-archive-all-action@791fb850881cf58b1d1fcc9b06c01940080bba0a # v1.0.1
+        with:
+          output-files: veristat-all-sources-${{ github.ref_name }}.tar.gz
+          base-repo: veristat
 
       - name: Create draft release and add artifacts
         uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v0.1.15
