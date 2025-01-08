@@ -27,11 +27,11 @@
 #endif
 
 #ifndef max
-#define max(a,b) (((a) > (b)) ? (a) : (b))
+#define max(a, b) ((a) > (b) ? (a) : (b))
 #endif
 
 #ifndef min
-#define min(a,b) (((a) < (b)) ? (a) : (b))
+#define min(a, b) ((a) < (b) ? (a) : (b))
 #endif
 
 enum stat_id {
@@ -1672,7 +1672,10 @@ static int parse_stat_value(const char *str, enum stat_id id, struct verif_stats
 	case TOTAL_STATES:
 	case PEAK_STATES:
 	case MAX_STATES_PER_INSN:
-	case MARK_READ_MAX_LEN: {
+	case MARK_READ_MAX_LEN:
+	case SIZE:
+	case JITED_SIZE:
+	case STACK: {
 		long val;
 		int err, n;
 
@@ -1683,6 +1686,42 @@ static int parse_stat_value(const char *str, enum stat_id id, struct verif_stats
 		}
 
 		st->stats[id] = val;
+		break;
+	}
+	case PROG_TYPE: {
+		enum bpf_prog_type prog_type = 0;
+		const char *type;
+
+		while ((type = libbpf_bpf_prog_type_str(prog_type)))  {
+			if (strcmp(type, str) == 0) {
+				st->stats[id] = prog_type;
+				break;
+			}
+			prog_type++;
+		}
+
+		if (!type) {
+			fprintf(stderr, "Unrecognized prog type %s\n", str);
+			return -EINVAL;
+		}
+		break;
+	}
+	case ATTACH_TYPE: {
+		enum bpf_attach_type attach_type = 0;
+		const char *type;
+
+		while ((type = libbpf_bpf_attach_type_str(attach_type)))  {
+			if (strcmp(type, str) == 0) {
+				st->stats[id] = attach_type;
+				break;
+			}
+			attach_type++;
+		}
+
+		if (!type) {
+			fprintf(stderr, "Unrecognized attach type %s\n", str);
+			return -EINVAL;
+		}
 		break;
 	}
 	default:
