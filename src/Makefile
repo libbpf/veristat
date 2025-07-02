@@ -9,7 +9,7 @@ LIBBPF_OBJ := $(abspath $(OUTPUT)/libbpf.a)
 # libbpf to avoid dependency on system-wide headers, which could be missing or
 # outdated
 INCLUDES := -I$(OUTPUT) -I../libbpf/include/uapi
-CFLAGS := -g -Wall -DVERISTAT_VERSION=\"$(VERISTAT_VERSION)\" -O$(if $(DEBUG),0,2)
+CFLAGS := -g -Wall -Wno-format-truncation -DVERISTAT_VERSION=\"$(VERISTAT_VERSION)\" -O$(if $(DEBUG),0,2)
 ALL_CFLAGS := $(CFLAGS) $(EXTRA_CFLAGS)
 ALL_LDFLAGS := $(LDFLAGS) $(EXTRA_LDFLAGS)
 
